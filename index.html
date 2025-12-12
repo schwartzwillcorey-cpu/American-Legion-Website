@@ -56,7 +56,31 @@
   </style>
   <script src="/_sdk/data_sdk.js" type="text/javascript">
   </script>
- </head>
+ 
+<style>
+/* === Mobile nav + banner tuning (added) === */
+#navToggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.12);color:#fff;cursor:pointer;}
+#navToggle:hover{background:rgba(0,0,0,0.22);}
+#navToggle svg{width:22px;height:22px;display:block;}
+@media (max-width: 860px){
+  #navLinks{display:none !important;flex-direction:column !important;align-items:flex-start !important;gap:0.75rem !important;width:100% !important;margin-top:0.75rem !important;padding:0.75rem 0.75rem 0.25rem 0.75rem !important;background:rgba(0,0,0,0.10) !important;border-radius:14px !important;}
+  #navLinks.open{display:flex !important;}
+  #navToggle{display:flex;}
+}
+#veterans-crisis-line-banner{padding:1.05rem 1.25rem !important;}
+#veterans-crisis-line-banner a{gap:1.25rem !important;}
+#veterans-crisis-line-banner img{max-width:240px !important;}
+#veterans-crisis-line-banner .vcl-text{font-size:0.98rem !important;max-width:560px !important;}
+@media (max-width: 600px){
+  #veterans-crisis-line-banner{padding:0.85rem 1rem !important;}
+  #veterans-crisis-line-banner img{max-width:190px !important;}
+  #veterans-crisis-line-banner .vcl-text{font-size:0.95rem !important;}
+}
+/* Make section images more responsive */
+img{max-width:100%;height:auto;}
+</style>
+
+</head></head>
  <body class="h-full overflow-auto">
   <div class="w-full h-full" id="main-wrapper" style="background-color: #F5F5F5;">
    <!-- Navigation -->
@@ -73,7 +97,14 @@
        </div>
       </div>
      </div>
-     <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+     
+<button id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks" type="button" title="Menu">
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.5rem;" id="navLinks">
       <a href="#about" onmouseout="this.style.color='white'" onmouseover="this.style.color='#C0A253'" style="color: white; text-decoration: none; font-size: 0.875rem; font-weight: 600; transition: color 0.3s;">
        About
       </a>
@@ -161,7 +192,7 @@
     <div style="max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:center; gap:1.5rem; flex-wrap:wrap;">
      <a href="https://www.veteranscrisisline.net/" style="text-decoration:none;display:flex;align-items:center;justify-content:center;gap:1.75rem;flex-wrap:wrap;color:white;" target="_blank">
       <img alt="Veterans Crisis Line - Dial 988 then press 1" src="assets/veterans-crisis-line-logo.png" style="max-width:320px;height:auto;display:block;"/>
-      <div style="font-size:1.05rem;color:white;max-width:420px;line-height:1.6;">
+      <div class="vcl-text" style="font-size:1.05rem;color:white;max-width:420px;line-height:1.6;">
        24/7 confidential support for veterans and their families. Dial 988 then press 1, or visit VeteransCrisisLine.net.
       </div>
      </a>
@@ -2212,5 +2243,35 @@
   <script>
    (function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ac94e345471fe0e',t:'MTc2NTUwMTQ0My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
   </script>
- </body>
+ 
+<script>
+(function(){
+  const btn = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  if(!btn || !links) return;
+
+  function closeMenu(){
+    links.classList.remove('open');
+    btn.setAttribute('aria-expanded','false');
+  }
+
+  btn.addEventListener('click', function(){
+    const isOpen = links.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Close menu when clicking a link (mobile)
+  links.addEventListener('click', function(e){
+    const a = e.target.closest('a');
+    if(a) closeMenu();
+  });
+
+  // Close on resize to desktop
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 860) closeMenu();
+  });
+})();
+</script>
+
+</body></body>
 </html>
